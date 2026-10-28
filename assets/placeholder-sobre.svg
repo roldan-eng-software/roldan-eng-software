@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 420" width="560" height="420" role="img" aria-label="Ilustração de uma equipe de desenvolvimento trabalhando em um projeto de site">
+  <!--
+    PLACEHOLDER: substituir por uma foto real da equipe ou do espaço de trabalho.
+    Troque este arquivo por uma imagem em assets/ e atualize o src no index.html
+    (seção "Sobre a empresa").
+  -->
+  <defs>
+    <linearGradient id="fundoSobre" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E40AF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="560" height="420" rx="16" fill="url(#fundoSobre)"/>
+
+  <!-- Decoração: painel de conteúdo -->
+  <g>
+    <rect x="340" y="56" width="164" height="110" rx="10" fill="#FFFFFF" fill-opacity="0.10"/>
+    <rect x="358" y="76" width="94" height="9" rx="4.5" fill="#FFFFFF" fill-opacity="0.55"/>
+    <rect x="358" y="96" width="128" height="9" rx="4.5" fill="#FFFFFF" fill-opacity="0.30"/>
+    <rect x="358" y="116" width="110" height="9" rx="4.5" fill="#FFFFFF" fill-opacity="0.30"/>
+    <rect x="358" y="136" width="70" height="9" rx="4.5" fill="#93C5FD" fill-opacity="0.9"/>
+  </g>
+
+  <!-- Decoração: barras de crescimento -->
+  <g>
+    <rect x="56" y="120" width="24" height="44" rx="4" fill="#60A5FA" fill-opacity="0.7"/>
+    <rect x="90" y="96" width="24" height="68" rx="4" fill="#93C5FD" fill-opacity="0.8"/>
+    <rect x="124" y="70" width="24" height="94" rx="4" fill="#DBEAFE"/>
+    <polyline points="60,58 96,40 130,48 168,26" fill="none" stroke="#10B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="168" cy="26" r="6" fill="#10B981"/>
+  </g>
+
+  <!-- Equipe (figuras abstratas) -->
+  <g>
+    <rect x="104" y="248" width="72" height="96" rx="36" fill="#DBEAFE" fill-opacity="0.85"/>
+    <circle cx="140" cy="216" r="28" fill="#DBEAFE"/>
+
+    <rect x="238" y="230" width="84" height="114" rx="42" fill="#FFFFFF" fill-opacity="0.92"/>
+    <circle cx="280" cy="192" r="32" fill="#FFFFFF"/>
+
+    <rect x="384" y="248" width="72" height="96" rx="36" fill="#93C5FD" fill-opacity="0.9"/>
+    <circle cx="420" cy="216" r="28" fill="#93C5FD"/>
+  </g>
+
+  <!-- Chão -->
+  <rect x="56" y="352" width="448" height="2" rx="1" fill="#FFFFFF" fill-opacity="0.25"/>
+</svg>

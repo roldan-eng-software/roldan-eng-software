@@ -1,0 +1,146 @@
+# Roldan Eng Software — Site Institucional
+
+Site institucional da **Roldan Eng Software** (criação de sites e SEO), construído
+com HTML5 semântico, CSS3 e JavaScript vanilla. Sem frameworks, sem etapas de build.
+
+## Estrutura do projeto
+
+```
+institucional/
+├── index.html          # Página única com todas as seções
+├── css/
+│   └── styles.css      # Design system, layout e responsividade
+├── js/
+│   └── main.js         # Menu, animações, FAQ e validação do formulário
+├── assets/
+│   ├── favicon.svg     # Ícone do site
+│   ├── og-image.png    # Imagem para compartilhamento (1200x630)
+│   ├── placeholder-hero.svg    # Ilustração do hero (trocar por mockup real)
+│   ├── placeholder-sobre.svg   # Ilustração da seção Sobre (trocar por foto real)
+│   └── portfolio-01.svg ... portfolio-06.svg  # Mockups do portfólio
+├── robots.txt          # Regras de indexação
+├── sitemap.xml         # Mapa do site para buscadores
+└── README.md
+```
+
+## Rodar localmente
+
+Não há dependências nem etapa de build. Basta abrir `index.html` no navegador.
+
+**Opção 1 — abrir direto:** duplo clique em `index.html`.
+
+**Opção 2 — servidor local (recomendado, evita bloqueio de iframe do Maps):**
+
+```bash
+# Python
+python -m http.server 8000
+
+# ou Node (npx)
+npx serve .
+```
+
+Acesse `http://localhost:8000`.
+
+## Publicar
+
+### GitHub Pages
+
+1. Crie um repositório no GitHub e envie os arquivos:
+   ```bash
+   git init
+   git add .
+   git commit -m "Site institucional da Roldan Eng Software"
+   git remote add origin https://github.com/USUARIO/REPO.git
+   git push -u origin main
+   ```
+2. No repositório: **Settings → Pages → Source: Deploy from a branch → branch `main` / root → Save**.
+3. O site fica em `https://USUARIO.github.io/REPO/`.
+
+### Vercel
+
+1. Envie o repositório ao GitHub (passos acima) ou use a CLI:
+   ```bash
+   npx vercel
+   ```
+2. Para projetos estáticos não há configuração adicional: a Vercel detecta
+   automaticamente a raiz com `index.html`.
+
+## Personalização
+
+### Textos
+
+- Todo o conteúdo está em `index.html`, em português do Brasil.
+- Títulos das seções ficam nas tags `<h2>`; os `<h1>` é apenas o do hero (SEO).
+- Depoimentos, portfólio e FAQ são blocos isolados — localize-os pelos
+  comentários `<!-- PLACEHOLDER -->`.
+
+### Cores
+
+Em `css/styles.css`, no bloco `:root`:
+
+| Variável | Cor | Uso |
+| --- | --- | --- |
+| `--cor-fundo` | `#FFFFFF` | Fundo principal |
+| `--cor-fundo-alternado` | `#F4F6F8` | Seções alternadas |
+| `--cor-texto` | `#1E293B` | Texto principal |
+| `--cor-texto-secundario` | `#5A6A80` | Texto secundário (escurecido do original `#64748B` para manter contraste AA sobre `#F4F6F8`) |
+| `--cor-primaria` | `#2563EB` | Botões e destaques |
+| `--cor-escura` | `#0F172A` | Header, faixa e footer |
+| `--cor-suave` | `#DBEAFE` | Badges e ícones |
+| `--cor-sucesso` | `#10B981` | Confirmações |
+
+Ao trocar `--cor-primaria`, verifique o contraste do texto branco sobre ela
+(botões) para manter acessibilidade AA.
+
+### Imagens
+
+- **Hero:** substitua `assets/placeholder-hero.svg` por um mockup real
+  (PNG/JPG/WebP) e atualize o `src` no bloco do hero.
+- **Sobre:** substitua `assets/placeholder-sobre.svg` por uma foto real.
+- **Portfólio:** substitua `assets/portfolio-0X.svg` pelas imagens dos projetos
+  reais e atualize nome, categoria, link e `alt` de cada card.
+- **Compartilhamento:** regenere `assets/og-image.png` (1200x630) com a
+  identidade final.
+- Todas as imagens já usam `loading="lazy"` (exceto a do hero) e atributos `alt`.
+
+### Formulário de contato
+
+O formulário em `index.html` valida os campos em JavaScript, mas **não envia
+dados**. Para torná-lo funcional, conecte-o a um serviço, por exemplo:
+
+- **Formspree:** adicione `action="https://formspree.io/f/SEU_ID" method="POST"`.
+- **Netlify Forms:** adicione `data-netlify="true"` ao `<form>`.
+- **E-mail próprio:** use um endpoint PHP/Node que reencaminhe a mensagem.
+
+## Antes de publicar — ajustes obrigatórios
+
+1. **Domínio:** substitua `https://www.seudominio.com.br` em:
+   - `index.html` (tag `canonical`, Open Graph `og:url`/`og:image`, Twitter `twitter:image` e JSON-LD)
+   - `robots.txt` (linha `Sitemap:`)
+   - `sitemap.xml` (tag `<loc>`)
+2. **Dados de contato:** substitua os placeholders listados na seção seguinte.
+3. **JSON-LD:** atualize telefone, e-mail, endereço e horário no bloco
+   `<script type="application/ld+json">` do `index.html`.
+4. **Google Maps:** troque o `src` do `<iframe>` da seção de contato pelo embed
+   da ficha real (abrir a ficha no Google Maps → Compartilhar → Incorporar mapa).
+5. **Formulário:** conecte a um serviço de envio real.
+
+## Placeholders que precisam ser substituídos
+
+| Placeholder | Onde aparece |
+| --- | --- |
+| `[ENDEREÇO]` | Seção Contato, JSON-LD |
+| `[CIDADE]`, `[UF]`, `[CEP]` | JSON-LD (`address`) |
+| `[TELEFONE]` | Seção Contato, footer, JSON-LD (`tel:` e `telephone`) |
+| `[WHATSAPP]` | Seção Contato e footer (formato `55DDDNÚMERO` na URL `wa.me`) |
+| `[HORÁRIO]` | Seção Contato e footer |
+| `[E-MAIL]` | Seção Contato, footer, JSON-LD |
+| `[ABERTURA]`, `[FECHAMENTO]` | JSON-LD (`openingHoursSpecification`) |
+| `[substituir por depoimento real]` (x2 visíveis; o 3º card está oculto em comentário no `index.html` até o relato real chegar) | Seção Depoimentos |
+| `[Nome do cliente]`, `[Cargo]`, `[Empresa]` | Seção Depoimentos |
+| `[N]` (avatar) | Seção Depoimentos |
+| Projetos ilustrativos (Clínica Bem Estar, Studio Nove, Contábil Norte, Café Serra Alta, Academia Movimento, Advocacia Prado) | Seção Portfólio |
+| `https://www.seudominio.com.br` | `index.html`, `robots.txt`, `sitemap.xml` |
+| `href="#"` das redes sociais | Footer |
+| Imagens `placeholder-*` e `portfolio-0X` | `assets/` |
+| `iframe` do Google Maps | Seção Contato |

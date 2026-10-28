@@ -1,0 +1,5 @@
+# Ferramentas locais de agente/IA — não fazem parte do site publicado
+.agents/
+.codex/
+.impeccable/
+.playwright-mcp/
