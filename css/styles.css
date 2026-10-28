@@ -562,17 +562,6 @@ button {
   border-color: var(--cor-suave);
 }
 
-.card-servico__icone {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 1.25rem;
-  background-color: var(--cor-suave);
-  color: var(--cor-primaria);
-  border-radius: var(--raio);
-}
-
 .card-servico h3 {
   margin-bottom: 0.6rem;
 }
