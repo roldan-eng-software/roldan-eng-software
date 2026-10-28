@@ -376,15 +376,175 @@
     });
   }
 
+  /* ----------------------- Dropdown desktop/mobile ----------------------- */
+
+  function iniciarDropdown() {
+    const itensDropdown = document.querySelectorAll(".nav__item--dropdown");
+    if (!itensDropdown.length) return;
+
+    itensDropdown.forEach(function (item) {
+      const gatilho = item.querySelector(".nav__link--dropdown");
+      if (!gatilho) return;
+
+      gatilho.addEventListener("click", function (evento) {
+        if (window.innerWidth >= 1024) {
+          return;
+        }
+        evento.preventDefault();
+        const estaAberto = item.classList.contains("is-aberto");
+        itensDropdown.forEach(function (outro) {
+          outro.classList.remove("is-aberto");
+        });
+        if (!estaAberto) {
+          item.classList.add("is-aberto");
+        }
+        gatilho.setAttribute("aria-expanded", String(!estaAberto));
+      });
+
+      gatilho.addEventListener("keydown", function (evento) {
+        if (evento.key === "Enter" || evento.key === " ") {
+          if (window.innerWidth >= 1024) return;
+          evento.preventDefault();
+          const estaAberto = item.classList.contains("is-aberto");
+          itensDropdown.forEach(function (outro) {
+            outro.classList.remove("is-aberto");
+          });
+          if (!estaAberto) {
+            item.classList.add("is-aberto");
+          }
+          gatilho.setAttribute("aria-expanded", String(!estaAberto));
+        }
+        if (evento.key === "Escape") {
+          item.classList.remove("is-aberto");
+          gatilho.setAttribute("aria-expanded", "false");
+          gatilho.focus();
+        }
+      });
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 1024) {
+        itensDropdown.forEach(function (item) {
+          item.classList.remove("is-aberto");
+          const gatilho = item.querySelector(".nav__link--dropdown");
+          if (gatilho) gatilho.setAttribute("aria-expanded", "false");
+        });
+      }
+    });
+  }
+
+  /* ----------------------- Header sombra ao rolar ----------------------- */
+
+  function iniciarHeaderRolado() {
+    const header = document.querySelector(".header");
+    if (!header) return;
+
+    const atualizar = function () {
+      if (window.scrollY > 10) {
+        header.classList.add("is-rolado");
+      } else {
+        header.classList.remove("is-rolado");
+      }
+    };
+
+    atualizar();
+    window.addEventListener("scroll", atualizar, { passive: true });
+  }
+
+  /* ----------------------- Filtros do portfólio ----------------------- */
+
+  function iniciarFiltrosPortfolio() {
+    const botoes = document.querySelectorAll(".filtro-btn[data-filtro]");
+    const projetos = document.querySelectorAll(".card-projeto[data-categoria]");
+    if (!botoes.length || !projetos.length) return;
+
+    botoes.forEach(function (botao) {
+      botao.addEventListener("click", function () {
+        const filtro = botao.getAttribute("data-filtro");
+        botoes.forEach(function (b) {
+          b.classList.remove("is-ativo");
+        });
+        botao.classList.add("is-ativo");
+
+        projetos.forEach(function (projeto) {
+          const categoria = projeto.getAttribute("data-categoria");
+          if (filtro === "todos" || categoria === filtro) {
+            projeto.classList.remove("is-oculto");
+          } else {
+            projeto.classList.add("is-oculto");
+          }
+        });
+      });
+    });
+  }
+
+  /* ----------------------- Busca e paginação do blog ----------------------- */
+
+  function iniciarBuscaBlog() {
+    const busca = document.getElementById("busca-blog");
+    const itens = document.querySelectorAll(".card-artigo[data-busca]");
+    if (!busca || !itens.length) return;
+
+    busca.addEventListener("input", function () {
+      const termo = busca.value.toLowerCase().trim();
+      itens.forEach(function (item) {
+        const texto = item.getAttribute("data-busca") || item.textContent.toLowerCase();
+        if (termo === "" || texto.includes(termo)) {
+          item.style.display = "grid";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    });
+  }
+
+  function iniciarPaginacaoBlog() {
+    const paginacao = document.querySelector(".paginacao");
+    if (!paginacao) return;
+  }
+
+  /* ----------------------- Índice automático do artigo ----------------------- */
+
+  function iniciarIndiceArtigo() {
+    const indiceLista = document.querySelector(".indice-artigo__lista");
+    const conteudo = document.querySelector(".artigo__conteudo");
+    if (!indiceLista || !conteudo) return;
+
+    const titulos = conteudo.querySelectorAll("h2");
+    if (!titulos.length) {
+      const indice = document.querySelector(".indice-artigo");
+      if (indice) indice.style.display = "none";
+      return;
+    }
+
+    titulos.forEach(function (titulo, index) {
+      if (!titulo.id) {
+        titulo.id = "secao-" + (index + 1);
+      }
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = "#" + titulo.id;
+      link.textContent = titulo.textContent;
+      item.appendChild(link);
+      indiceLista.appendChild(item);
+    });
+  }
+
   /* ----------------------- Inicialização ----------------------- */
 
   // Ponto de entrada: inicializa todas as interações quando o DOM está pronto.
   function iniciar() {
     iniciarMenu();
+    iniciarDropdown();
+    iniciarHeaderRolado();
     iniciarReveal();
     iniciarAcordeao();
     iniciarNavegacaoAtiva();
     iniciarFormulario();
+    iniciarFiltrosPortfolio();
+    iniciarBuscaBlog();
+    iniciarPaginacaoBlog();
+    iniciarIndiceArtigo();
   }
 
   if (document.readyState === "loading") {

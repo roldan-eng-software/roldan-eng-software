@@ -265,6 +265,10 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.header.is-rolado {
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+}
+
 .header__inner {
   display: flex;
   align-items: center;
@@ -313,6 +317,8 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--sombra-alta);
   display: none;
+  max-height: calc(100vh - var(--altura-header));
+  overflow-y: auto;
 }
 
 .nav.is-aberto {
@@ -325,8 +331,15 @@ button {
   gap: 0.25rem;
 }
 
+.nav__item {
+  position: relative;
+}
+
 .nav__link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.75rem 0.5rem;
   color: #CBD5E1;
   font-size: 1rem;
@@ -337,7 +350,45 @@ button {
 }
 
 .nav__link:hover,
-.nav__link.is-ativo {
+.nav__link.is-ativo,
+.nav__link[aria-current="page"] {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.nav__seta {
+  transition: transform 0.2s ease;
+}
+
+.nav__item.is-aberto .nav__seta {
+  transform: rotate(180deg);
+}
+
+.dropdown__menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nav__item.is-aberto .dropdown__menu {
+  display: flex;
+}
+
+.dropdown__link {
+  display: block;
+  padding: 0.65rem 0.5rem;
+  color: #CBD5E1;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.dropdown__link:hover,
+.dropdown__link.is-ativo,
+.dropdown__link[aria-current="page"] {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.07);
 }
@@ -1304,5 +1355,103 @@ button {
 
   .sobre__destaque {
     right: -1.5rem;
+  }
+}
+
+/* ----------------------- Novos breakpoints para componentes globais ----------------------- */
+@media (min-width: 768px) {
+  .beneficios {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .processo-etapas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grade-blog {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .relacionados__grade {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    position: static;
+    display: flex !important;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .nav__list {
+    flex-direction: row;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  .nav__link {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.925rem;
+  }
+
+  .nav__seta {
+    display: none;
+  }
+
+  .nav__item--dropdown {
+    position: relative;
+  }
+
+  .dropdown__menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 280px;
+    margin-left: 0;
+    padding: 0.5rem;
+    background-color: var(--cor-escura);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra-alta);
+    display: none;
+  }
+
+  .nav__item--dropdown:hover .dropdown__menu,
+  .nav__item--dropdown:focus-within .dropdown__menu,
+  .nav__item--dropdown.is-aberto .dropdown__menu {
+    display: flex;
+  }
+
+  .dropdown__link {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .nav__cta {
+    margin-top: 0;
+    width: auto;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .beneficios {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .processo-etapas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grade-blog {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

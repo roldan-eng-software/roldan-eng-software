@@ -1,7 +1,5 @@
 # robots.txt — Roldan Eng Software
-# Permite a indexação de todo o site
 User-agent: *
 Allow: /
 
-# Sitemap do site (substitua pelo domínio final)
 Sitemap: https://www.seudominio.com.br/sitemap.xml

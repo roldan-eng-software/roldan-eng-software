@@ -3,23 +3,51 @@
 Site institucional da **Roldan Eng Software** (criação de sites e SEO), construído
 com HTML5 semântico, CSS3 e JavaScript vanilla. Sem frameworks, sem etapas de build.
 
+## Mapa de rotas
+
+| Rota | Arquivo |
+| --- | --- |
+| `/` | `index.html` |
+| `/criacao-de-sites/institucional/` | `criacao-de-sites/institucional/index.html` |
+| `/criacao-de-sites/cidade/` | `criacao-de-sites/cidade/index.html` |
+| `/seo/otimizacao-de-site/` | `seo/otimizacao-de-site/index.html` |
+| `/seo/consultoria/` | `seo/consultoria/index.html` |
+| `/seo/ia/` | `seo/ia/index.html` |
+| `/seo/google-meu-negocio/` | `seo/google-meu-negocio/index.html` |
+| `/portfolio/` | `portfolio/index.html` |
+| `/blog/` | `blog/index.html` |
+| `/blog/posicionamento/` | `blog/posicionamento/index.html` |
+| `/blog/seo-local-para-pequenos-negocios/` | `blog/seo-local-para-pequenos-negocios/index.html` |
+| `/blog/velocidade-de-site-impacto-buscas/` | `blog/velocidade-de-site-impacto-buscas/index.html` |
+| `/blog/escolha-de-dominio-e-hospedagem/` | `blog/escolha-de-dominio-e-hospedagem/index.html` |
+| `/contato/` | `contato/index.html` |
+| `/sobre/` | `sobre/index.html` |
+| `/404.html` | `404.html` |
+
 ## Estrutura do projeto
 
 ```
 institucional/
-├── index.html          # Página única com todas as seções
+├── index.html
+├── 404.html
 ├── css/
-│   └── styles.css      # Design system, layout e responsividade
+│   └── styles.css
 ├── js/
-│   └── main.js         # Menu, animações, FAQ e validação do formulário
+│   └── main.js
 ├── assets/
-│   ├── favicon.svg     # Ícone do site
-│   ├── og-image.png    # Imagem para compartilhamento (1200x630)
-│   ├── placeholder-hero.svg    # Ilustração do hero (trocar por mockup real)
-│   ├── placeholder-sobre.svg   # Ilustração da seção Sobre (trocar por foto real)
-│   └── portfolio-01.svg ... portfolio-06.svg  # Mockups do portfólio
-├── robots.txt          # Regras de indexação
-├── sitemap.xml         # Mapa do site para buscadores
+│   ├── favicon.svg
+│   ├── og-image.png
+│   ├── placeholder-hero.svg
+│   ├── placeholder-sobre.svg
+│   └── portfolio-01.svg ... portfolio-06.svg
+├── criacao-de-sites/
+├── seo/
+├── portfolio/
+├── blog/
+├── contato/
+├── sobre/
+├── robots.txt
+├── sitemap.xml
 └── README.md
 ```
 
