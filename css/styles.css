@@ -665,6 +665,15 @@ button {
   margin-bottom: 0.9rem;
 }
 
+/* Descrição do projeto: fica entre o título e o link */
+.projeto__descricao {
+  margin-top: -0.35rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--cor-texto-secundario);
+}
+
 .projeto__link {
   display: inline-flex;
   align-items: center;
