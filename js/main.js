@@ -40,6 +40,9 @@
 
     // Fecha o menu ao escolher um item (navegação por âncora).
     menu.querySelectorAll("a").forEach(function (link) {
+      if (link.classList.contains("nav__dropdown-toggle")) {
+        return;
+      }
       link.addEventListener("click", fecharMenu);
     });
 
@@ -483,7 +486,7 @@
     if (!itensDropdown.length) return;
 
     itensDropdown.forEach(function (item) {
-      const gatilho = item.querySelector(".nav__link--dropdown");
+      const gatilho = item.querySelector(".nav__dropdown-toggle");
       if (!gatilho) return;
 
       gatilho.addEventListener("click", function (evento) {
@@ -526,7 +529,7 @@
       if (window.innerWidth >= 1024) {
         itensDropdown.forEach(function (item) {
           item.classList.remove("is-aberto");
-          const gatilho = item.querySelector(".nav__link--dropdown");
+          const gatilho = item.querySelector(".nav__dropdown-toggle");
           if (gatilho) gatilho.setAttribute("aria-expanded", "false");
         });
       }
