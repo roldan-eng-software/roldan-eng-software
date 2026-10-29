@@ -2,4 +2,10 @@
 User-agent: *
 Allow: /
 
+# Bloquear diretórios desnecessários para indexação
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/
+Disallow: /404.html
+
 Sitemap: https://www.seudominio.com.br/sitemap.xml
