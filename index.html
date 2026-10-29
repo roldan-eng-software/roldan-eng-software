@@ -172,6 +172,7 @@
 
     <!-- ============================ HERO ============================ -->
     <section class="hero" aria-labelledby="hero-titulo">
+      <div id="vanta-hero" class="hero__bg" aria-hidden="true"></div>
       <div class="container hero__grid">
         <div class="hero__conteudo reveal">
           <span class="badge">Desenvolvimento web e SEO</span>
@@ -322,8 +323,9 @@
     </section>
 
     <!-- ============================ PROCESSO ============================ -->
-    <section class="secao secao--alternada" id="processo" aria-labelledby="processo-titulo">
-      <div class="container">
+    <section class="secao secao--alternada processo" id="processo" aria-labelledby="processo-titulo">
+      <div id="vanta-processo" class="processo__bg" aria-hidden="true"></div>
+      <div class="container processo__container">
         <header class="secao__cabecalho reveal">
           <span class="badge">Processo</span>
           <h2 id="processo-titulo">Como trabalhamos, em quatro etapas</h2>
@@ -525,8 +527,9 @@
     </section>
 
     <!-- ============================ SOBRE ============================ -->
-    <section class="secao secao--alternada" id="sobre" aria-labelledby="sobre-titulo">
-      <div class="container sobre__grid">
+    <section class="secao secao--alternada sobre" id="sobre" aria-labelledby="sobre-titulo">
+      <div id="vanta-sobre" class="sobre__bg" aria-hidden="true"></div>
+      <div class="container sobre__grid sobre__container">
         <div class="sobre__conteudo reveal">
           <span class="badge">Sobre nós</span>
           <h2 id="sobre-titulo">Engenharia de software aplicada à presença digital da sua empresa</h2>
@@ -901,6 +904,88 @@
       </div>
     </section>
   </main>
+
+  <!-- Vanta.js + Three.js para efeito de fundo da hero -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      if (window.VANTA && document.getElementById('vanta-hero')) {
+        VANTA.WAVES({
+          el: "#vanta-hero",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x3b5478,
+          shininess: 38.00,
+          waveHeight: 16.00,
+          waveSpeed: 1.10,
+          zoom: 0.8565450643776824,
+          backgroundAlpha: 1.00
+        });
+      }
+    });
+  </script>
+
+  <!-- Vanta.js + Three.js para efeito de fundo da seção Processo -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      if (window.VANTA && document.getElementById('vanta-processo')) {
+        VANTA.GLOBE({
+          el: "#vanta-processo",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xff9b3d,
+          color2: 0xffffff,
+          backgroundColor: 0x0f1026,
+          backgroundAlpha: 1.00,
+          size: 0.80,
+          points: 10.00,
+          maxDistance: 20.00,
+          spacing: 15.00,
+          showDots: true
+        });
+      }
+    });
+  </script>
+
+  <!-- Vanta.js + Three.js para efeito de fundo da seção Sobre nós -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      if (window.VANTA && document.getElementById('vanta-sobre')) {
+        VANTA.DOTS({
+          el: "#vanta-sobre",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xd999ce,
+          color2: 0xde8dbf,
+          backgroundColor: 0x0e1128,
+          backgroundAlpha: 1.00,
+          size: 2.60,
+          spacing: 31.00,
+          showLines: false
+        });
+      }
+    });
+  </script>
 
   <!-- ============================ FOOTER ============================ -->
   <footer class="footer">

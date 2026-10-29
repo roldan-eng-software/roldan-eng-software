@@ -86,6 +86,10 @@ h1 {
   line-height: 1.08;
 }
 
+.hero h1 {
+  color: #FFFFFF;
+}
+
 h2 {
   font-size: clamp(1.6rem, 4vw, 2.4rem);
 }
@@ -152,6 +156,118 @@ button {
 
 .secao--alternada {
   background-color: var(--cor-fundo-alternado);
+}
+
+.sobre {
+  position: relative;
+  overflow: hidden;
+}
+
+.sobre__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sobre__container {
+  position: relative;
+  z-index: 1;
+}
+
+.sobre .secao__cabecalho h2,
+.sobre .secao__cabecalho p,
+.sobre__conteudo h2,
+.sobre__conteudo p,
+.sobre__pontos li {
+  color: #FFFFFF;
+}
+
+.sobre__conteudo p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sobre__pontos li {
+  color: #FFFFFF;
+}
+
+.sobre .badge {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.sobre__destaque {
+  background-color: rgba(15, 23, 42, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.sobre__destaque span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sobre__pontos svg {
+  color: #FFFFFF;
+}
+
+.sobre__pontos li {
+  color: #FFFFFF !important;
+}
+
+.sobre .btn--primary {
+  background-color: #FFFFFF;
+  color: var(--cor-escura);
+}
+
+.sobre .btn--primary:hover {
+  background-color: var(--cor-suave);
+}
+
+.processo {
+  position: relative;
+  overflow: hidden;
+}
+
+.processo__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.processo__container {
+  position: relative;
+  z-index: 1;
+}
+
+.processo .secao__cabecalho h2,
+.processo .secao__cabecalho p,
+.processo .etapa h3,
+.processo .etapa p {
+  color: #FFFFFF;
+}
+
+.processo .secao__cabecalho p,
+.processo .etapa p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.processo .etapa {
+  background-color: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.processo .etapa__numero {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.processo .badge {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
 }
 
 .secao__cabecalho {
@@ -486,6 +602,8 @@ button {
 
 /* ----------------------- Hero ----------------------- */
 .hero {
+  position: relative;
+  overflow: hidden;
   padding-top: calc(var(--altura-header) + 3rem);
   padding-bottom: 3.5rem;
   background:
@@ -493,16 +611,28 @@ button {
     linear-gradient(180deg, #F8FAFC 0%, var(--cor-fundo) 100%);
 }
 
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .hero__grid {
   display: grid;
   gap: 3rem;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__subtitulo {
   margin-top: 1.25rem;
   font-size: 1.0625rem;
   max-width: 34rem;
+  color: #FFFFFF;
 }
 
 .hero__acoes {
@@ -773,6 +903,14 @@ button {
 .sobre__pontos svg {
   flex-shrink: 0;
   color: var(--cor-primaria);
+}
+
+.sobre .sobre__pontos li {
+  color: #FFFFFF !important;
+}
+
+.sobre .sobre__pontos svg {
+  color: #FFFFFF !important;
 }
 
 .sobre__visual {
