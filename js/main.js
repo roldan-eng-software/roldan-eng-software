@@ -231,6 +231,15 @@
     remetente: "Site Roldan Eng Software",
   };
 
+  // Inicializa o EmailJS com a chave pública para maior compatibilidade com o SDK v5
+  if (typeof emailjs !== "undefined") {
+    try {
+      emailjs.init({ publicKey: CONFIGURACAO_EMAILJS.chavePublica });
+    } catch (erro) {
+      console.warn("Não foi possível inicializar o EmailJS:", erro);
+    }
+  }
+
   // Lê o rótulo atual do botão de envio, ignorando o espaçamento ao redor.
   function lerRotuloDoBotao(botao) {
     const noDeTexto = Array.from(botao.childNodes).find(function (no) {
@@ -422,12 +431,26 @@
           CONFIGURACAO_EMAILJS.servico,
           CONFIGURACAO_EMAILJS.template,
           {
+            // Variáveis principais
             from_name: CONFIGURACAO_EMAILJS.remetente,
             reply_to: email.value.trim(),
             nome: nome.value.trim(),
             email: email.value.trim(),
             telefone: telefone.value.trim(),
             mensagem: mensagem.value.trim(),
+
+            // Aliases para maior compatibilidade com diferentes templates do EmailJS
+            name: nome.value.trim(),
+            user_name: nome.value.trim(),
+            from_email: email.value.trim(),
+            user_email: email.value.trim(),
+            replyTo: email.value.trim(),
+            phone: telefone.value.trim(),
+            user_phone: telefone.value.trim(),
+            telefone_contato: telefone.value.trim(),
+            message: mensagem.value.trim(),
+            messagem: mensagem.value.trim(),
+            mensagem_contato: mensagem.value.trim(),
           },
           { publicKey: CONFIGURACAO_EMAILJS.chavePublica }
         );
@@ -441,6 +464,8 @@
         });
       } catch (erro) {
         console.error("Falha ao enviar o formulário de contato:", erro);
+        if (erro && erro.text) console.error("Detalhe do EmailJS:", erro.text);
+        if (erro && erro.status) console.error("Status HTTP:", erro.status);
         if (avisoDeErro) avisoDeErro.hidden = false;
       } finally {
         if (botaoDeEnvio) {
