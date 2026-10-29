@@ -1,0 +1,4 @@
+Unknown command: "audit"
+
+To see a list of supported commands, run:
+  impeccable --help
