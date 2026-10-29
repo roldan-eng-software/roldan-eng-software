@@ -735,6 +735,12 @@ button {
   box-shadow: var(--sombra-media);
 }
 
+.sobre__moldura img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .sobre__destaque {
   position: absolute;
   right: -0.5rem;
