@@ -1557,3 +1557,160 @@ button {
 .artigo__conteudo strong {
   font-weight: 600;
 }
+
+/* ----------------------- Listagem do blog: busca, filtros e cards ----------------------- */
+.busca-blog {
+  max-width: 480px;
+  margin-bottom: 1.1rem;
+}
+
+.busca-blog input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+.busca-blog input:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px var(--cor-suave);
+}
+
+/* Filtros de categoria (blog e portfólio compartilham o mesmo visual) */
+.filtros-blog,
+.filtros-portfolio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.filtro-btn {
+  padding: 0.45rem 0.95rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cor-texto-secundario);
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.filtro-btn:hover {
+  color: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+}
+
+.filtro-btn.is-ativo {
+  color: #FFFFFF;
+  background-color: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+}
+
+.grade-blog {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card-artigo {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-suave);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card-artigo:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-media);
+}
+
+.card-artigo__meta {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cor-texto-secundario);
+}
+
+.card-artigo__meta span:first-child {
+  color: var(--cor-primaria);
+}
+
+.card-artigo h3 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.card-artigo__link {
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.card-artigo__link:hover {
+  color: var(--cor-primaria);
+}
+
+.card-artigo p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--cor-texto-secundario);
+}
+
+/* ----------------------- Cards da página de portfólio ----------------------- */
+.card-projeto {
+  display: grid;
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-grande);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card-projeto:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-media);
+}
+
+.card-projeto__corpo {
+  padding: 1.35rem 1.5rem 1.5rem;
+}
+
+.card-projeto__categoria {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+}
+
+.card-projeto__corpo h3 {
+  margin-bottom: 0.6rem;
+}
+
+.card-projeto__corpo p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--cor-texto-secundario);
+}
+
+.card-projeto .projeto__link {
+  margin-top: 0.9rem;
+}
+
+/* Item oculto pelo filtro de categoria ou pela busca do blog */
+.is-oculto {
+  display: none !important;
+}

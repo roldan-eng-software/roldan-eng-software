@@ -451,56 +451,55 @@
     window.addEventListener("scroll", atualizar, { passive: true });
   }
 
-  /* ----------------------- Filtros do portfólio ----------------------- */
+  /* ----------------------- Filtros de categoria e busca ----------------------- */
 
-  function iniciarFiltrosPortfolio() {
+  // Liga os botões de categoria à lista de itens da página (.card-projeto no
+  // portfólio ou .card-artigo no blog), combinando o filtro ativo com o termo
+  // de busca quando o campo de busca existe.
+  function iniciarFiltrosCategoria() {
     const botoes = document.querySelectorAll(".filtro-btn[data-filtro]");
-    const projetos = document.querySelectorAll(".card-projeto[data-categoria]");
-    if (!botoes.length || !projetos.length) return;
+    const itens = document.querySelectorAll(
+      ".card-projeto[data-categoria], .card-artigo[data-categoria]"
+    );
+    if (!botoes.length || !itens.length) return;
+
+    const campoBusca = document.getElementById("busca-blog");
+
+    // Mostra ou esconde cada item conforme a categoria ativa e o termo de busca.
+    const atualizar = function () {
+      const botaoAtivo = document.querySelector(".filtro-btn.is-ativo");
+      const filtro = botaoAtivo
+        ? botaoAtivo.getAttribute("data-filtro")
+        : "todos";
+      const termo = campoBusca ? campoBusca.value.toLowerCase().trim() : "";
+
+      itens.forEach(function (item) {
+        const categoria = item.getAttribute("data-categoria");
+        const texto = (
+          item.getAttribute("data-busca") || item.textContent
+        ).toLowerCase();
+        const combinaCategoria = filtro === "todos" || categoria === filtro;
+        const combinaBusca = termo === "" || texto.includes(termo);
+        item.classList.toggle(
+          "is-oculto",
+          !(combinaCategoria && combinaBusca)
+        );
+      });
+    };
 
     botoes.forEach(function (botao) {
       botao.addEventListener("click", function () {
-        const filtro = botao.getAttribute("data-filtro");
-        botoes.forEach(function (b) {
-          b.classList.remove("is-ativo");
+        botoes.forEach(function (outro) {
+          outro.classList.remove("is-ativo");
         });
         botao.classList.add("is-ativo");
-
-        projetos.forEach(function (projeto) {
-          const categoria = projeto.getAttribute("data-categoria");
-          if (filtro === "todos" || categoria === filtro) {
-            projeto.classList.remove("is-oculto");
-          } else {
-            projeto.classList.add("is-oculto");
-          }
-        });
+        atualizar();
       });
     });
-  }
 
-  /* ----------------------- Busca e paginação do blog ----------------------- */
-
-  function iniciarBuscaBlog() {
-    const busca = document.getElementById("busca-blog");
-    const itens = document.querySelectorAll(".card-artigo[data-busca]");
-    if (!busca || !itens.length) return;
-
-    busca.addEventListener("input", function () {
-      const termo = busca.value.toLowerCase().trim();
-      itens.forEach(function (item) {
-        const texto = item.getAttribute("data-busca") || item.textContent.toLowerCase();
-        if (termo === "" || texto.includes(termo)) {
-          item.style.display = "grid";
-        } else {
-          item.style.display = "none";
-        }
-      });
-    });
-  }
-
-  function iniciarPaginacaoBlog() {
-    const paginacao = document.querySelector(".paginacao");
-    if (!paginacao) return;
+    if (campoBusca) {
+      campoBusca.addEventListener("input", atualizar);
+    }
   }
 
   /* ----------------------- Índice automático do artigo ----------------------- */
@@ -541,9 +540,7 @@
     iniciarAcordeao();
     iniciarNavegacaoAtiva();
     iniciarFormulario();
-    iniciarFiltrosPortfolio();
-    iniciarBuscaBlog();
-    iniciarPaginacaoBlog();
+    iniciarFiltrosCategoria();
     iniciarIndiceArtigo();
   }
 
