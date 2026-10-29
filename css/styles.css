@@ -1028,6 +1028,34 @@ button {
   color: var(--cor-sucesso);
 }
 
+.formulario__erro {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.15rem;
+  padding: 0.9rem 1.1rem;
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: var(--raio);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #991B1B;
+}
+
+.formulario__erro[hidden] {
+  display: none;
+}
+
+.formulario__erro svg {
+  flex-shrink: 0;
+  color: #DC2626;
+}
+
+.formulario button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .contato__info {
   display: flex;
   flex-direction: column;

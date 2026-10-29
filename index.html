@@ -812,11 +812,9 @@
               </svg>
             </button>
 
-            <!-- PLACEHOLDER: conectar o formulário a um serviço de e-mail antes
-                 de publicar — instruções no README, seção "Formulário de contato" -->
             <p class="formulario__nota">
-              Este formulário ainda não envia mensagens. Enquanto isso, use um
-              dos canais de contato.
+              Ao enviar, sua mensagem chega direto no nosso e-mail. Usamos
+              seus dados apenas para responder ao seu contato.
             </p>
 
             <div class="formulario__sucesso" id="formulario-sucesso" role="status" hidden>
@@ -824,12 +822,20 @@
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
-              <span>Dados validados. Este formulário ainda não envia mensagens — use um dos canais de contato.</span>
+              <span>Mensagem enviada com sucesso! Respondemos em até um dia útil.</span>
+            </div>
+
+            <div class="formulario__erro" id="formulario-erro" role="alert" hidden>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Não foi possível enviar a mensagem agora. Tente novamente em instantes ou use o WhatsApp.</span>
             </div>
           </form>
 
           <aside class="contato__info reveal" aria-label="Informações de contato">
-            <!-- PLACEHOLDER: substituir pelos dados reais da ficha do Google Maps -->
             <ul class="contato__lista">
               <li>
                 <span class="contato__icone" aria-hidden="true">
@@ -983,6 +989,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

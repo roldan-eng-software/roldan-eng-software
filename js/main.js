@@ -222,8 +222,37 @@
     return false;
   }
 
-  // Valida todo o formulário e, se estiver correto, exibe a confirmação
-  // (demonstração: nenhum dado real é enviado).
+  // Configuração do EmailJS: identificadores públicos, pensados para uso no
+  // navegador (a chave privada da conta nunca deve entrar no site).
+  const CONFIGURACAO_EMAILJS = {
+    servico: "service_ozhjk4g",
+    template: "template_kop5bjg",
+    chavePublica: "RR9BbO6bfvuFkgz3p",
+    remetente: "Site Roldan Eng Software",
+  };
+
+  // Lê o rótulo atual do botão de envio, ignorando o espaçamento ao redor.
+  function lerRotuloDoBotao(botao) {
+    const noDeTexto = Array.from(botao.childNodes).find(function (no) {
+      return no.nodeType === Node.TEXT_NODE && no.textContent.trim();
+    });
+    return noDeTexto ? noDeTexto.textContent.trim() : botao.textContent.trim();
+  }
+
+  // Troca o rótulo do botão (ex.: "Enviando...") sem apagar o ícone SVG.
+  function definirRotuloDoBotao(botao, rotulo) {
+    const noDeTexto = Array.from(botao.childNodes).find(function (no) {
+      return no.nodeType === Node.TEXT_NODE && no.textContent.trim();
+    });
+    if (noDeTexto) {
+      noDeTexto.textContent = " " + rotulo + " ";
+    } else {
+      botao.textContent = rotulo;
+    }
+  }
+
+  // Valida o formulário e, quando todos os campos estão corretos, envia a
+  // mensagem ao e-mail da empresa por meio do EmailJS.
   function iniciarFormulario() {
     const formulario = document.getElementById("formulario-contato");
     if (!formulario) return;
@@ -233,6 +262,11 @@
     const telefone = formulario.querySelector("#telefone");
     const mensagem = formulario.querySelector("#mensagem");
     const avisoDeSucesso = document.getElementById("formulario-sucesso");
+    const avisoDeErro = document.getElementById("formulario-erro");
+    const botaoDeEnvio = formulario.querySelector('button[type="submit"]');
+    const rotuloOriginalDoBotao = botaoDeEnvio
+      ? lerRotuloDoBotao(botaoDeEnvio)
+      : "";
 
     const regras = {
       nome: {
@@ -338,7 +372,7 @@
       });
     });
 
-    formulario.addEventListener("submit", function (evento) {
+    formulario.addEventListener("submit", async function (evento) {
       evento.preventDefault();
       tentouEnviar = true;
 
@@ -360,20 +394,61 @@
 
       if (!formularioValido) {
         if (avisoDeSucesso) avisoDeSucesso.hidden = true;
+        if (avisoDeErro) avisoDeErro.hidden = true;
         if (primeiroCampoInvalido) primeiroCampoInvalido.focus();
         return;
       }
 
-      // Demonstração: sem envio real de dados.
-      if (avisoDeSucesso) avisoDeSucesso.hidden = false;
-      formulario.reset();
-
-      campos.forEach(function (item) {
-        if (!item.campo) return;
-        item.campo.closest(".campo").classList.remove("is-invalido");
-        item.campo.removeAttribute("aria-invalid");
-      });
+      await enviarMensagem();
     });
+
+    // Envia a mensagem validada via EmailJS, cuidando dos estados do botão
+    // (enviando/erro) e dos avisos de sucesso e falha.
+    async function enviarMensagem() {
+      if (avisoDeSucesso) avisoDeSucesso.hidden = true;
+      if (avisoDeErro) avisoDeErro.hidden = true;
+
+      if (botaoDeEnvio) {
+        botaoDeEnvio.disabled = true;
+        definirRotuloDoBotao(botaoDeEnvio, "Enviando...");
+      }
+
+      try {
+        if (typeof emailjs === "undefined") {
+          throw new Error("SDK do EmailJS não foi carregado.");
+        }
+
+        await emailjs.send(
+          CONFIGURACAO_EMAILJS.servico,
+          CONFIGURACAO_EMAILJS.template,
+          {
+            from_name: CONFIGURACAO_EMAILJS.remetente,
+            reply_to: email.value.trim(),
+            nome: nome.value.trim(),
+            email: email.value.trim(),
+            telefone: telefone.value.trim(),
+            mensagem: mensagem.value.trim(),
+          },
+          { publicKey: CONFIGURACAO_EMAILJS.chavePublica }
+        );
+
+        if (avisoDeSucesso) avisoDeSucesso.hidden = false;
+        formulario.reset();
+        campos.forEach(function (item) {
+          if (!item.campo) return;
+          item.campo.closest(".campo").classList.remove("is-invalido");
+          item.campo.removeAttribute("aria-invalid");
+        });
+      } catch (erro) {
+        console.error("Falha ao enviar o formulário de contato:", erro);
+        if (avisoDeErro) avisoDeErro.hidden = false;
+      } finally {
+        if (botaoDeEnvio) {
+          botaoDeEnvio.disabled = false;
+          definirRotuloDoBotao(botaoDeEnvio, rotuloOriginalDoBotao);
+        }
+      }
+    }
   }
 
   /* ----------------------- Dropdown desktop/mobile ----------------------- */
