@@ -605,6 +605,19 @@ button {
   padding-top: calc(var(--altura-header) + 2rem);
 }
 
+/* Hero do portfólio com efeito de névoa (Vanta.js): reserva de camada para o
+   canvas ficar atrás do conteúdo e fundo estático caso o efeito não carregue. */
+.hero-interno--fog {
+  position: relative;
+  overflow: hidden;
+  background-color: #FFEBEB;
+}
+
+.hero-interno--fog > .container {
+  position: relative;
+  z-index: 1;
+}
+
 /* ----------------------- Blocos do hero interno ----------------------- */
 
 /* Espaçamento consistente entre os blocos de texto do hero das páginas internas. */

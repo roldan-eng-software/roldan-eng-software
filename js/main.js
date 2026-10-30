@@ -664,6 +664,48 @@
     });
   }
 
+  /* ----------------------- Efeito de névoa do portfólio ----------------------- */
+
+  // Aplica o efeito VANTA.FOG no hero da página de portfólio com as cores e a
+  // velocidade definidas no configurador do Vanta. Só roda se a biblioteca
+  // carregar e o visitante não tiver movimento reduzido; se falhar (ex.: WebGL
+  // indisponível), o hero mantém o fundo estático definido no CSS.
+  function iniciarEfeitoFogPortfolio() {
+    const alvo = document.querySelector("[data-vanta-fog]");
+
+    if (!alvo || !window.VANTA || typeof window.THREE === "undefined") return;
+
+    const preferePoucoMovimento = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (preferePoucoMovimento) return;
+
+    try {
+      window.VANTA.FOG({
+        el: alvo,
+        THREE: window.THREE,
+        mouseControls: true,
+        touchControls: false,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        backgroundAlpha: 1,
+        baseColor: 0xffebeb,
+        highlightColor: 0x5a5ae3,
+        midtoneColor: 0x00ff69,
+        lowlightColor: 0xef00ff,
+        blurFactor: 0.61,
+        speed: 0.8,
+        scale: 2,
+        scaleMobile: 4,
+        zoom: 1
+      });
+    } catch (erro) {
+      console.warn("Efeito de névoa não pôde ser carregado:", erro);
+    }
+  }
+
   /* ----------------------- Inicialização ----------------------- */
 
   // Ponto de entrada: inicializa todas as interações quando o DOM está pronto.
@@ -678,6 +720,7 @@
     iniciarFiltrosCategoria();
     iniciarIndiceArtigo();
     iniciarLinksWhatsapp();
+    iniciarEfeitoFogPortfolio();
   }
 
   if (document.readyState === "loading") {
