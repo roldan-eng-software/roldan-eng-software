@@ -605,6 +605,13 @@ button {
   padding-top: calc(var(--altura-header) + 2rem);
 }
 
+/* Assinatura do hero (autor/data), como no layout de referência do blog */
+.hero-interno__assinatura {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cor-texto-secundario);
+}
+
 /* Hero do portfólio com efeito de névoa (Vanta.js): reserva de camada para o
    canvas ficar atrás do conteúdo e fundo estático caso o efeito não carregue. */
 .hero-interno--fog {
@@ -1689,6 +1696,14 @@ button {
   .relacionados__grade {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .temas-blog {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .destaque-blog {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1974,6 +1989,7 @@ button {
 
 .card-artigo__meta {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
   font-size: 0.8rem;
   font-weight: 600;
@@ -2049,4 +2065,214 @@ button {
 /* Item oculto pelo filtro de categoria ou pela busca do blog */
 .is-oculto {
   display: none !important;
+}
+
+/* ----------------------- Layout do blog: temas, destaque e guia ----------------------- */
+
+/* Cards de tema: filtram a lista de artigos ao serem clicados */
+.temas-blog {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.tema-blog {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.2rem 1.35rem;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-suave);
+  transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.tema-blog:hover {
+  transform: translateY(-2px);
+  border-color: var(--cor-primaria);
+  box-shadow: var(--sombra-media);
+}
+
+/* Tema selecionado: mantém o card destacado enquanto o filtro está ativo */
+.tema-blog.is-ativo {
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px var(--cor-suave);
+}
+
+.tema-blog__icone {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  color: var(--cor-primaria-escura);
+  background-color: var(--cor-suave);
+  border-radius: var(--raio);
+}
+
+.tema-blog__corpo {
+  display: grid;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.tema-blog__nome {
+  font-size: 1rem;
+  color: var(--cor-texto);
+}
+
+.tema-blog__descricao {
+  font-size: 0.875rem;
+  color: var(--cor-texto-secundario);
+}
+
+.tema-blog__total {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cor-primaria);
+}
+
+.tema-blog__seta {
+  flex-shrink: 0;
+  color: var(--cor-texto-secundario);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.tema-blog:hover .tema-blog__seta,
+.tema-blog.is-ativo .tema-blog__seta {
+  color: var(--cor-primaria);
+  transform: translateX(3px);
+}
+
+/* Artigo em destaque: painel visual à esquerda e conteúdo à direita */
+.destaque-blog {
+  display: grid;
+  overflow: hidden;
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-suave);
+}
+
+.destaque-blog__visual {
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  color: rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(30rem 16rem at 100% 0%, rgba(37, 99, 235, 0.45), transparent 65%),
+    var(--cor-escura);
+}
+
+.destaque-blog__conteudo {
+  display: grid;
+  gap: 0.85rem;
+  align-content: center;
+  padding: 2rem 1.75rem;
+}
+
+.destaque-blog__categoria {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-primaria);
+}
+
+.destaque-blog h3 {
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.3;
+}
+
+.destaque-blog__link {
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.destaque-blog__link:hover {
+  color: var(--cor-primaria);
+}
+
+.destaque-blog__conteudo > p {
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: var(--cor-texto-secundario);
+}
+
+.destaque-blog__conteudo p.destaque-blog__meta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.destaque-blog__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+/* Guia "por onde começar": situação à esquerda e artigo indicado à direita */
+.guia-blog {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.guia-blog li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 1.1rem 1.35rem;
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-grande);
+}
+
+.guia-blog__situacao {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.guia-blog__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  text-decoration: none;
+}
+
+.guia-blog__link:hover {
+  text-decoration: underline;
+}
+
+.guia-blog__link svg {
+  transition: transform 0.2s ease;
+}
+
+.guia-blog__link:hover svg {
+  transform: translateX(3px);
+}
+
+/* FAQ do blog centralizado, no formato do layout de referência */
+.acordeao-blog {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+/* A listagem do blog fica em 2 colunas em telas largas, como na referência */
+@media (min-width: 1024px) {
+  .grade-blog {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

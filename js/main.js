@@ -556,11 +556,12 @@
 
   /* ----------------------- Filtros de categoria e busca ----------------------- */
 
-  // Liga os botões de categoria à lista de itens da página (.card-projeto no
-  // portfólio ou .card-artigo no blog), combinando o filtro ativo com o termo
-  // de busca quando o campo de busca existe.
+  // Liga os controles de categoria (chips do portfólio e cards de tema do blog)
+  // à lista de itens (.card-projeto ou .card-artigo), combinando o filtro ativo
+  // com o termo de busca quando o campo de busca existe. Clicar no controle já
+  // ativo limpa o filtro e volta a mostrar todos os itens.
   function iniciarFiltrosCategoria() {
-    const botoes = document.querySelectorAll(".filtro-btn[data-filtro]");
+    const botoes = document.querySelectorAll("[data-filtro]");
     const itens = document.querySelectorAll(
       ".card-projeto[data-categoria], .card-artigo[data-categoria]"
     );
@@ -570,7 +571,7 @@
 
     // Mostra ou esconde cada item conforme a categoria ativa e o termo de busca.
     const atualizar = function () {
-      const botaoAtivo = document.querySelector(".filtro-btn.is-ativo");
+      const botaoAtivo = document.querySelector("[data-filtro].is-ativo");
       const filtro = botaoAtivo
         ? botaoAtivo.getAttribute("data-filtro")
         : "todos";
@@ -592,11 +593,23 @@
 
     botoes.forEach(function (botao) {
       botao.addEventListener("click", function () {
+        const filtro = botao.getAttribute("data-filtro");
+        // "Todos" sempre fica ativo; nos demais, clicar de novo limpa o filtro.
+        const jaAtivo =
+          filtro !== "todos" && botao.classList.contains("is-ativo");
+
+        // Mantém o mesmo estado visual em todos os controles do mesmo filtro.
         botoes.forEach(function (outro) {
-          outro.classList.remove("is-ativo");
+          const mesmoFiltro = outro.getAttribute("data-filtro") === filtro;
+          outro.classList.toggle("is-ativo", mesmoFiltro && !jaAtivo);
         });
-        botao.classList.add("is-ativo");
         atualizar();
+
+        // Cards de tema do blog aproximam a lista filtrada na tela.
+        if (!botao.classList.contains("filtro-btn")) {
+          const lista = document.getElementById("lista-artigos");
+          if (lista) lista.scrollIntoView({ block: "nearest" });
+        }
       });
     });
 

@@ -98,60 +98,311 @@
   </header>
 
   <main id="conteudo">
+    <!-- ============================== HERO ============================== -->
     <section class="hero-interno">
       <div class="container">
         <div class="hero-interno__conteudo reveal">
           <h1>Conteúdo útil sobre sites e busca</h1>
           <p class="hero-interno__subtitulo">
-            Artigos sobre criação de sites, SEO técnico, SEO local e estratégias de presença digital.
+            Artigos sobre criação de sites, SEO técnico, SEO local e estratégias de presença
+            digital, em linguagem direta para quem toma decisões de negócio.
           </p>
-          <div class="hero-interno__acoes">
-            <a class="btn btn--primary" href="./posicionamento/">Ler artigo: Posicionamento</a>
-          </div>
+          <p class="hero-interno__assinatura">
+            Por Roldan Eng Software · Atualizado em outubro de 2026
+          </p>
         </div>
       </div>
     </section>
 
-    <section class="secao">
+    <!-- ============================== TEMAS ============================== -->
+    <section class="secao" aria-labelledby="temas-titulo">
       <div class="container">
-        <div class="busca-blog reveal">
-          <input type="search" id="busca-blog" placeholder="Buscar artigos por texto..." aria-label="Buscar artigos por texto">
+        <header class="secao__cabecalho reveal">
+          <span class="badge">Temas</span>
+          <h2 id="temas-titulo">Escolha um tema</h2>
+          <p>Selecione um assunto para filtrar a lista de artigos logo abaixo.</p>
+        </header>
+
+        <div class="temas-blog reveal">
+          <button class="tema-blog" type="button" data-filtro="criacao">
+            <span class="tema-blog__icone" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </span>
+            <span class="tema-blog__corpo">
+              <strong class="tema-blog__nome">Criação de sites</strong>
+              <span class="tema-blog__descricao">Domínio, hospedagem e decisões do site no ar.</span>
+              <span class="tema-blog__total">1 artigo</span>
+            </span>
+            <svg class="tema-blog__seta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <button class="tema-blog" type="button" data-filtro="seo">
+            <span class="tema-blog__icone" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <span class="tema-blog__corpo">
+              <strong class="tema-blog__nome">SEO</strong>
+              <span class="tema-blog__descricao">Velocidade, conteúdo e posicionamento na busca.</span>
+              <span class="tema-blog__total">2 artigos</span>
+            </span>
+            <svg class="tema-blog__seta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <button class="tema-blog" type="button" data-filtro="local">
+            <span class="tema-blog__icone" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </span>
+            <span class="tema-blog__corpo">
+              <strong class="tema-blog__nome">SEO local</strong>
+              <span class="tema-blog__descricao">Presença nas buscas e no mapa da cidade.</span>
+              <span class="tema-blog__total">1 artigo</span>
+            </span>
+            <svg class="tema-blog__seta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
         </div>
-        <div class="filtros-blog reveal">
-          <button class="filtro-btn is-ativo" data-filtro="todos">Todos</button>
-          <button class="filtro-btn" data-filtro="criacao">Criação de sites</button>
-          <button class="filtro-btn" data-filtro="seo">SEO</button>
-          <button class="filtro-btn" data-filtro="local">SEO local</button>
-        </div>
-        <div class="grade-blog">
-          <article class="card-artigo reveal" data-busca="posicionamento marca" data-categoria="seo">
+      </div>
+    </section>
+
+    <!-- ======================== ARTIGO EM DESTAQUE ======================== -->
+    <section class="secao" aria-labelledby="destaque-titulo">
+      <div class="container">
+        <header class="secao__cabecalho reveal">
+          <span class="badge">Destaques</span>
+          <h2 id="destaque-titulo">Artigo em destaque</h2>
+        </header>
+
+        <article class="destaque-blog reveal">
+          <div class="destaque-blog__visual" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <div class="destaque-blog__conteudo">
+            <span class="destaque-blog__categoria">SEO</span>
+            <h3>
+              <a class="destaque-blog__link" href="./posicionamento/">Posicionamento de marca na busca local</a>
+            </h3>
+            <p>
+              Como organizar a informação da empresa para orientar decisões de mensagem,
+              estrutura e presença local — e fortalecer a marca nas buscas da cidade.
+            </p>
+            <p class="destaque-blog__meta">28 de outubro de 2026 · 9 min de leitura</p>
+            <div class="destaque-blog__acoes">
+              <a class="btn btn--primary" href="./posicionamento/">
+                Ler o artigo completo
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================== ARTIGOS MAIS RECENTES ======================== -->
+    <section class="secao" aria-labelledby="recentes-titulo">
+      <div class="container">
+        <header class="secao__cabecalho reveal">
+          <span class="badge">Artigos</span>
+          <h2 id="recentes-titulo">Artigos mais recentes</h2>
+          <p>Todo o conteúdo publicado, com a data e o tempo de leitura de cada artigo.</p>
+        </header>
+
+        <div class="grade-blog" id="lista-artigos">
+          <article class="card-artigo reveal" data-busca="posicionamento marca busca local" data-categoria="seo">
             <div class="card-artigo__meta">
-              <span>SEO</span><span>8 min de leitura</span>
+              <span>SEO</span><span>28 de outubro de 2026 · 9 min de leitura</span>
             </div>
             <h3><a class="card-artigo__link" href="./posicionamento/">Posicionamento de marca na busca local</a></h3>
             <p>Como organizar a informação da empresa para orientar decisões de mensagem, estrutura e presença local.</p>
           </article>
           <article class="card-artigo reveal" data-busca="velocidade performance" data-categoria="seo">
             <div class="card-artigo__meta">
-              <span>SEO</span><span>6 min de leitura</span>
+              <span>SEO</span><span>28 de outubro de 2026 · 6 min de leitura</span>
             </div>
             <h3><a class="card-artigo__link" href="./velocidade-de-site-impacto-buscas/">Velocidade de site e impacto nas buscas</a></h3>
             <p>Porque carregamento rápido é parte da experiência digital e da base de ranking.</p>
           </article>
           <article class="card-artigo reveal" data-busca="domínio hospedagem" data-categoria="criacao">
             <div class="card-artigo__meta">
-              <span>Criação</span><span>7 min de leitura</span>
+              <span>Criação</span><span>28 de outubro de 2026 · 7 min de leitura</span>
             </div>
             <h3><a class="card-artigo__link" href="./escolha-de-dominio-e-hospedagem/">Escolha de domínio e hospedagem</a></h3>
             <p>Decisões de infraestrutura que influenciam presença e crescimento.</p>
           </article>
-          <article class="card-artigo reveal" data-busca="conteúdo" data-categoria="seo">
+          <article class="card-artigo reveal" data-busca="seo local pequenos negócios" data-categoria="local">
             <div class="card-artigo__meta">
-              <span>SEO</span><span>9 min de leitura</span>
+              <span>SEO local</span><span>28 de outubro de 2026 · 8 min de leitura</span>
             </div>
             <h3><a class="card-artigo__link" href="./seo-local-para-pequenos-negocios/">SEO local para pequenos negócios</a></h3>
             <p>Estrutura básica para aparecer em buscas locais com dados consistentes.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== POR ONDE COMEÇAR ======================== -->
+    <section class="secao" aria-labelledby="guia-titulo">
+      <div class="container">
+        <header class="secao__cabecalho reveal">
+          <span class="badge">Por onde começar</span>
+          <h2 id="guia-titulo">Por onde começar no blog, de acordo com a sua dúvida</h2>
+          <p>
+            Escolha a linha que descreve a sua situação e leia primeiro o artigo indicado:
+            cada um foi escrito para uma etapa diferente.
+          </p>
+        </header>
+
+        <ul class="guia-blog reveal">
+          <li>
+            <span class="guia-blog__situacao">Vou criar o site do zero e não sei por onde começar</span>
+            <a class="guia-blog__link" href="./escolha-de-dominio-e-hospedagem/">
+              Escolha de domínio e hospedagem
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <span class="guia-blog__situacao">Meu site está lento e afasta visitantes</span>
+            <a class="guia-blog__link" href="./velocidade-de-site-impacto-buscas/">
+              Velocidade de site e impacto nas buscas
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <span class="guia-blog__situacao">Quero aparecer nas buscas da minha cidade</span>
+            <a class="guia-blog__link" href="./seo-local-para-pequenos-negocios/">
+              SEO local para pequenos negócios
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <span class="guia-blog__situacao">Preciso organizar a mensagem da empresa na busca</span>
+            <a class="guia-blog__link" href="./posicionamento/">
+              Posicionamento de marca na busca local
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== FAQ ============================== -->
+    <section class="secao secao--alternada" aria-labelledby="faq-blog-titulo">
+      <div class="container">
+        <header class="secao__cabecalho reveal">
+          <span class="badge">Perguntas frequentes</span>
+          <h2 id="faq-blog-titulo">Perguntas frequentes sobre o blog</h2>
+          <p>Respostas rápidas sobre quem escreve e o que cada tema cobre.</p>
+        </header>
+
+        <div class="acordeao acordeao-blog reveal" id="faq-blog-acordeao">
+          <div class="acordeao__item">
+            <h3>
+              <button class="acordeao__gatilho" type="button" aria-expanded="false" aria-controls="faq-blog-painel-1" id="faq-blog-gatilho-1">
+                Quem escreve os artigos do blog?
+                <svg class="acordeao__seta" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </h3>
+            <div class="acordeao__painel" id="faq-blog-painel-1" role="region" aria-labelledby="faq-blog-gatilho-1" hidden>
+              <p>
+                Os textos são produzidos pela equipe da Roldan Eng Software, com base em
+                projetos reais de criação de sites e SEO executados para empresas.
+              </p>
+            </div>
+          </div>
+
+          <div class="acordeao__item">
+            <h3>
+              <button class="acordeao__gatilho" type="button" aria-expanded="false" aria-controls="faq-blog-painel-2" id="faq-blog-gatilho-2">
+                Com que frequência novos artigos são publicados?
+                <svg class="acordeao__seta" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </h3>
+            <div class="acordeao__painel" id="faq-blog-painel-2" role="region" aria-labelledby="faq-blog-gatilho-2" hidden>
+              <p>
+                A publicação segue o ritmo dos projetos: sempre que um aprendizado de um
+                trabalho real merecer ser compartilhado, um novo artigo entra no blog.
+              </p>
+            </div>
+          </div>
+
+          <div class="acordeao__item">
+            <h3>
+              <button class="acordeao__gatilho" type="button" aria-expanded="false" aria-controls="faq-blog-painel-3" id="faq-blog-gatilho-3">
+                Os artigos servem para qualquer tipo de negócio?
+                <svg class="acordeao__seta" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </h3>
+            <div class="acordeao__painel" id="faq-blog-painel-3" role="region" aria-labelledby="faq-blog-gatilho-3" hidden>
+              <p>
+                Os conteúdos tratam de estrutura de sites, SEO técnico e SEO local — base
+                útil para empresas locais, profissionais liberais e negócios digitais.
+                Quando o caso exige algo específico, o artigo deixa claro o que avaliar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CTA ============================== -->
+    <section class="cta-final" aria-labelledby="cta-blog-titulo">
+      <div class="container cta-final__conteudo reveal">
+        <h2 id="cta-blog-titulo">Quer um site preparado para aparecer no Google?</h2>
+        <p>
+          Criamos sites institucionais com estrutura de SEO desde a primeira página —
+          e podemos analisar o que o seu site atual precisa para ser encontrado.
+        </p>
+        <div class="cta-final__acoes">
+          <a class="btn btn--claro" href="../contato/">
+            Solicitar orçamento
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a class="btn btn--contorno" href="../portfolio/">Ver portfólio</a>
         </div>
       </div>
     </section>
