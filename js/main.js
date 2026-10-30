@@ -632,6 +632,38 @@
     });
   }
 
+  /* ----------------------- Links do WhatsApp ----------------------- */
+
+  // Detecta se o acesso vem de um navegador desktop (descarta celulares,
+  // tablets e navegadores com ponteiro principal tátil).
+  function ehNavegadorDesktop() {
+    const userAgent = navigator.userAgent || "";
+    const ehDispositivoMovel = /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(
+      userAgent
+    );
+    const ponteiroTatico =
+      "matchMedia" in window &&
+      window.matchMedia("(pointer: coarse)").matches;
+
+    return !ehDispositivoMovel && !ponteiroTatico;
+  }
+
+  // Faz todos os links do WhatsApp (wa.me) abrirem em nova aba apenas quando
+  // o visitante usa um navegador desktop. No mobile eles continuam abrindo na
+  // mesma aba, para que o sistema direcione para o app do WhatsApp.
+  function iniciarLinksWhatsapp() {
+    if (!ehNavegadorDesktop()) return;
+
+    const links = document.querySelectorAll(
+      'a[href*="wa.me"], a[href*="api.whatsapp.com"]'
+    );
+
+    links.forEach(function (link) {
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
+    });
+  }
+
   /* ----------------------- Inicialização ----------------------- */
 
   // Ponto de entrada: inicializa todas as interações quando o DOM está pronto.
@@ -645,6 +677,7 @@
     iniciarFormulario();
     iniciarFiltrosCategoria();
     iniciarIndiceArtigo();
+    iniciarLinksWhatsapp();
   }
 
   if (document.readyState === "loading") {
