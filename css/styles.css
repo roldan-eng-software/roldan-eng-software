@@ -1152,6 +1152,37 @@ button {
   margin-top: 2rem;
 }
 
+/* ----------------------- Faixa CTA do portfólio ----------------------- */
+
+.cta-faixa {
+  padding-block: 4rem;
+  background:
+    radial-gradient(50rem 25rem at 85% -20%, rgba(255, 255, 255, 0.12), transparent 60%),
+    var(--cor-primaria);
+}
+
+.cta-faixa__conteudo {
+  max-width: 720px;
+  text-align: center;
+}
+
+.cta-faixa h2 {
+  color: #FFFFFF;
+}
+
+.cta-faixa p {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.cta-faixa__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
 /* ----------------------- Contato ----------------------- */
 .contato__grid {
   display: grid;
