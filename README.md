@@ -133,12 +133,11 @@ Ao trocar `--cor-primaria`, verifique o contraste do texto branco sobre ela
 
 ### Formulário de contato
 
-O formulário em `index.html` valida os campos em JavaScript, mas **não envia
-dados**. Para torná-lo funcional, conecte-o a um serviço, por exemplo:
-
-- **Formspree:** adicione `action="https://formspree.io/f/SEU_ID" method="POST"`.
-- **Netlify Forms:** adicione `data-netlify="true"` ao `<form>`.
-- **E-mail próprio:** use um endpoint PHP/Node que reencaminhe a mensagem.
+O site não possui formulário publicado: a conversão é feita pelos links do
+WhatsApp (na página de contato, um card com botão direto + lista de canais e
+mapa, igual à seção de contato da home). A validação de formulário e a
+integração com EmailJS seguem em `js/main.js` caso um formulário volte a ser
+publicado no futuro.
 
 ## Antes de publicar — ajustes obrigatórios
 
@@ -151,7 +150,6 @@ dados**. Para torná-lo funcional, conecte-o a um serviço, por exemplo:
    `<script type="application/ld+json">` do `index.html`.
 4. **Google Maps:** troque o `src` do `<iframe>` da seção de contato pelo embed
    da ficha real (abrir a ficha no Google Maps → Compartilhar → Incorporar mapa).
-5. **Formulário:** conecte a um serviço de envio real.
 
 ## Placeholders que precisam ser substituídos
 
