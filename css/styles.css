@@ -601,6 +601,14 @@ button {
 }
 
 /* ----------------------- Hero ----------------------- */
+.hero-interno {
+  padding-top: calc(var(--altura-header) + 2rem);
+}
+
+.page-404 {
+  padding-top: calc(var(--altura-header) + 2rem);
+}
+
 .hero {
   position: relative;
   overflow: hidden;
