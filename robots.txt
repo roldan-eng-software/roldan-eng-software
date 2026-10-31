@@ -8,4 +8,4 @@ Disallow: /css/
 Disallow: /assets/
 Disallow: /404.html
 
-Sitemap: https://www.seudominio.com.br/sitemap.xml
+Sitemap: https://roldan-eng-software.vercel.app/sitemap.xml
