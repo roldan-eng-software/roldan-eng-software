@@ -8,6 +8,7 @@ com HTML5 semântico, CSS3 e JavaScript vanilla. Sem frameworks, sem etapas de b
 | Rota | Arquivo |
 | --- | --- |
 | `/` | `index.html` |
+| `/orcamento/` | `orcamento/index.html` |
 | `/criacao-de-sites/institucional/` | `criacao-de-sites/institucional/index.html` |
 | `/criacao-de-sites/cidade/` | `criacao-de-sites/cidade/index.html` |
 | `/seo/otimizacao-de-site/` | `seo/otimizacao-de-site/index.html` |
@@ -69,7 +70,19 @@ npx serve .
 
 Acesse `http://localhost:8000`.
 
-## Publicar
+## Orçamento automático
+
+A rota `/orcamento/` usa um assistente em etapas para sugerir pacote, itens adicionais e envio de proposta pelo EmailJS. O motor de cálculo fica em `js/orcamento-calculator.js` e os dados percentuais/price list em `js/orcamento-config.js`.
+
+### Configuração do EmailJS
+
+1. Crie uma conta no EmailJS e configure um serviço de e-mail.
+2. Crie um template com as variáveis: `data`, `segmento`, `respostas`, `pacote_sugerido`, `itens_adicionais`, `total`, `manutencao`, `nome`, `nome_negocio`, `whatsapp`, `email`, `cidade`.
+3. Copie as chaves do painel e preencha as variáveis públicas em `.env.example` ou no objeto `window.__EMAILJS_CONFIG__` da página.
+4. No painel do EmailJS, restrinja os domínios permitidos ao domínio do site em produção.
+5. Os valores calculados no navegador podem ser alterados pelo cliente; por isso a mensagem do e-mail inclui todas as respostas para conferência manual antes de responder.
+
+### Publicar
 
 ### GitHub Pages
 

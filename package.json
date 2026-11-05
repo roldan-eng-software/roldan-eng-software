@@ -1,0 +1,8 @@
+{
+  "name": "roldan-eng-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
