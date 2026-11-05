@@ -5,7 +5,8 @@ import {
   SEGMENTS
 } from './orcamento-config.js';
 import {
-  buildWhatsAppMessage,
+  buildBudgetMessage,
+  buildContactChannelLinks,
   calculateProject,
   formatCurrency
 } from './orcamento-calculator.js';
@@ -216,10 +217,15 @@ function renderResultStep() {
 function renderContactStep() {
   const segment = getSegment();
   const result = calculateProject({ segment, answers: state.answers, maintenanceSelected: state.maintenanceSelected });
-  const message = buildWhatsAppMessage({ segment, answers: state.answers, result });
+  const message = buildBudgetMessage({ segment, answers: state.answers, result });
   const selectedItems = segment.questions.filter((question) => state.answers[question.id] === true);
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  const emailUrl = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(`Orçamento para ${segment.name}`)}&amp;body=${encodeURIComponent(message)}`;
+  const channelLinks = buildContactChannelLinks({
+    message,
+    segmentName: segment.name,
+    whatsappNumber: WHATSAPP_NUMBER,
+    emailAddress: BUSINESS_EMAIL
+  });
+  const toHtmlAttribute = (url) => url.replaceAll('&', '&amp;');
 
   return `
     <div class="orcamento__shell">
@@ -260,9 +266,17 @@ function renderContactStep() {
       <p class="orcamento__nota">A mensagem só será compartilhada quando você confirmar o envio no WhatsApp ou no seu aplicativo de e-mail.</p>
       <div class="orcamento__actions orcamento__actions--split">
         <button class="btn btn--secondary" type="button" data-action="previous-step">Voltar</button>
-        <a class="btn btn--primary" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Continuar pelo WhatsApp</a>
+        <a class="btn btn--primary" href="${toHtmlAttribute(channelLinks.whatsapp)}" target="_blank" rel="noopener noreferrer" data-contact-channel>Enviar pelo WhatsApp</a>
       </div>
-      <p class="orcamento__contato-alternativo">Prefere outro canal? <a href="${emailUrl}">Enviar por e-mail</a></p>
+      <div class="orcamento__canais-alternativos" aria-label="Outras opções de e-mail">
+        <a class="btn btn--secondary" href="${toHtmlAttribute(channelLinks.email)}" data-contact-channel>Enviar por e-mail</a>
+        <span>ou abrir no navegador:</span>
+        <a href="${toHtmlAttribute(channelLinks.gmail)}" target="_blank" rel="noopener noreferrer" data-contact-channel>Gmail</a>
+        <a href="${toHtmlAttribute(channelLinks.outlook)}" target="_blank" rel="noopener noreferrer" data-contact-channel>Outlook</a>
+      </div>
+      <p class="orcamento__envio-status" id="orcamento-envio-status" role="status" aria-live="polite" hidden>
+        Mensagem preparada. Confirme o envio no seu aplicativo.
+      </p>
     </div>
   `;
 }
@@ -340,6 +354,16 @@ function render() {
       render();
     });
   }
+
+  const contactLinks = app.querySelectorAll('[data-contact-channel]');
+  contactLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const status = app.querySelector('#orcamento-envio-status');
+      if (status) {
+        status.hidden = false;
+      }
+    });
+  });
 
 }
 

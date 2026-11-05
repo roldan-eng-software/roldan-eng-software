@@ -72,7 +72,7 @@ Acesse `http://localhost:8000`.
 
 ## Orçamento automático
 
-A rota `/orcamento/` usa um assistente em etapas para sugerir pacote e itens adicionais. Na etapa final, a pessoa pode abrir uma mensagem pré-preenchida com o resumo da simulação no WhatsApp ou escolher o e-mail. A mensagem só é enviada depois da confirmação no aplicativo escolhido. O motor de cálculo fica em `js/orcamento-calculator.js` e os valores e segmentos em `js/orcamento-config.js`.
+A rota `/orcamento/` usa um assistente em etapas para sugerir pacote e itens adicionais. Na etapa final, a pessoa pode preparar a mesma mensagem resumida no WhatsApp, no aplicativo de e-mail, no Gmail ou no Outlook. A mensagem só é enviada depois da confirmação no aplicativo escolhido; o site não coleta dados pessoais, não confirma o envio e não armazena a mensagem. O motor de cálculo e a montagem dos links ficam em `js/orcamento-calculator.js`; os valores e segmentos ficam em `js/orcamento-config.js`.
 
 ### Publicar
 

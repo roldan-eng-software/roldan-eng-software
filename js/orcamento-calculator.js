@@ -111,7 +111,7 @@ export function validateWhatsApp(value) {
 }
 
 // Monta um resumo do projeto sem incluir dados pessoais na mensagem.
-export function buildWhatsAppMessage({ segment, answers, result }) {
+export function buildBudgetMessage({ segment, answers, result }) {
   const selectedItems = segment.questions
     .filter((question) => answers[question.id] === true)
     .map((question) => question.text);
@@ -134,4 +134,19 @@ export function buildWhatsAppMessage({ segment, answers, result }) {
     '',
     'Gostaria de conversar sobre esse projeto.'
   ].join('\n');
+}
+
+// Gera links para os canais sem enviar a mensagem ou armazenar dados.
+export function buildContactChannelLinks({ message, segmentName, whatsappNumber, emailAddress }) {
+  const subject = `Pedido de orçamento - ${segmentName}`;
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedMessage = encodeURIComponent(message);
+  const encodedEmail = encodeURIComponent(emailAddress);
+
+  return {
+    whatsapp: `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+    email: `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedMessage}`,
+    gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedEmail}&su=${encodedSubject}&body=${encodedMessage}`,
+    outlook: `https://outlook.live.com/mail/0/deeplink/compose?to=${encodedEmail}&subject=${encodedSubject}&body=${encodedMessage}`
+  };
 }

@@ -3,7 +3,8 @@ import test from 'node:test';
 
 import { BASE_PACKAGES, ITEMS, MAINTENANCE_OPTIONS, SEGMENTS } from '../js/orcamento-config.js';
 import {
-  buildWhatsAppMessage,
+  buildBudgetMessage,
+  buildContactChannelLinks,
   calculateProject,
   formatCurrency,
   getSuggestedPackage,
@@ -92,11 +93,11 @@ test('validação do WhatsApp aceita válidos e recusa inválidos', () => {
   assert.equal(validateWhatsApp('abc'), false);
 });
 
-test('mensagem do WhatsApp resume a simulação sem dados pessoais', () => {
+test('mensagem de orçamento resume a simulação sem dados pessoais', () => {
   const segment = SEGMENTS.find((item) => item.id === 'restaurante');
   const answers = getAnswerMap(segment, { cardapio_fotos: true, carrinho: true, pagamento_online: true });
   const result = calculateProject({ segment, answers, maintenanceSelected: true });
-  const message = buildWhatsAppMessage({
+  const message = buildBudgetMessage({
     segment,
     answers,
     result
@@ -108,16 +109,45 @@ test('mensagem do WhatsApp resume a simulação sem dados pessoais', () => {
   assert.match(message, /Estimativa do projeto: R\$\s*\d/);
   assert.match(message, /Manutenção mensal: R\$\s*\d+ por mês/);
   assert.doesNotMatch(message, /Ana|Pizzaria Verde|99876-5432|ana@email\.com/);
+  assert.ok(message.length <= 1500);
 });
 
-test('mensagem do WhatsApp explica quando nenhum item foi selecionado', () => {
+test('mensagem de orçamento explica quando nenhum item foi selecionado', () => {
   const segment = SEGMENTS.find((item) => item.id === 'cafeteria');
   const answers = getAnswerMap(segment, {});
   const result = calculateProject({ segment, answers, maintenanceSelected: false });
-  const message = buildWhatsAppMessage({ segment, answers, result });
+  const message = buildBudgetMessage({ segment, answers, result });
 
   assert.match(message, /Ainda estou definindo os recursos/);
   assert.match(message, /Manutenção mensal: Não incluída/);
+});
+
+test('links dos canais codificam a mesma mensagem e o assunto do orçamento', () => {
+  const message = 'Pedido de orçamento\nSegmento: Clínica\nEstimativa: R$ 2.300';
+  const links = buildContactChannelLinks({
+    message,
+    segmentName: 'Clínica',
+    whatsappNumber: '5516981442301',
+    emailAddress: 'contato@example.com'
+  });
+  const subject = 'Pedido de orçamento - Clínica';
+
+  assert.equal(new URL(links.whatsapp).searchParams.get('text'), message);
+
+  const emailUrl = new URL(links.email);
+  assert.equal(emailUrl.pathname, 'contato@example.com');
+  assert.equal(emailUrl.searchParams.get('subject'), subject);
+  assert.equal(emailUrl.searchParams.get('body'), message);
+
+  const gmailUrl = new URL(links.gmail);
+  assert.equal(gmailUrl.searchParams.get('to'), 'contato@example.com');
+  assert.equal(gmailUrl.searchParams.get('su'), subject);
+  assert.equal(gmailUrl.searchParams.get('body'), message);
+
+  const outlookUrl = new URL(links.outlook);
+  assert.equal(outlookUrl.searchParams.get('to'), 'contato@example.com');
+  assert.equal(outlookUrl.searchParams.get('subject'), subject);
+  assert.equal(outlookUrl.searchParams.get('body'), message);
 });
 
 test('os valores da configuração conferem com as médias informadas', () => {

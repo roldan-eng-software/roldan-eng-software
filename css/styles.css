@@ -2613,7 +2613,25 @@ button {
   line-height: 1.5;
 }
 
-.orcamento__contato-alternativo {
+.orcamento__canais-alternativos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+}
+
+.orcamento__canais-alternativos span {
+  color: var(--cor-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.orcamento__canais-alternativos a:not(.btn) {
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.orcamento__envio-status {
   margin: 0;
   text-align: center;
 }
