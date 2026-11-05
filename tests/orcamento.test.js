@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import { BASE_PACKAGES, ITEMS, MAINTENANCE_OPTIONS, SEGMENTS } from '../js/orcamento-config.js';
 import {
-  buildEmailPayload,
+  buildWhatsAppMessage,
   calculateProject,
   formatCurrency,
   getSuggestedPackage,
@@ -92,27 +92,32 @@ test('validação do WhatsApp aceita válidos e recusa inválidos', () => {
   assert.equal(validateWhatsApp('abc'), false);
 });
 
-test('montagem do payload do EmailJS traz total e adicionais corretamente', () => {
+test('mensagem do WhatsApp resume a simulação sem dados pessoais', () => {
   const segment = SEGMENTS.find((item) => item.id === 'restaurante');
   const answers = getAnswerMap(segment, { cardapio_fotos: true, carrinho: true, pagamento_online: true });
   const result = calculateProject({ segment, answers, maintenanceSelected: true });
-  const payload = buildEmailPayload({
+  const message = buildWhatsAppMessage({
     segment,
     answers,
-    result,
-    customer: {
-      name: 'Ana',
-      businessName: 'Pizzaria Verde',
-      phone: '(16) 99876-5432',
-      email: 'ana@email.com',
-      city: 'São Carlos'
-    }
+    result
   });
 
-  assert.match(payload.total, /R\$\s*\d/);
-  assert.match(payload.itens_adicionais, /Cardápio digital com atualização inicial|Carrinho de pedidos via WhatsApp|Pagamento online/);
-  assert.match(payload.respostas, /Sim/);
-  assert.equal(payload.pacote_sugerido, 'Completo');
+  assert.match(message, /Segmento: Restaurante/);
+  assert.match(message, /Pacote sugerido: Completo/);
+  assert.match(message, /Quer pedidos e delivery com carrinho\?/);
+  assert.match(message, /Estimativa do projeto: R\$\s*\d/);
+  assert.match(message, /Manutenção mensal: R\$\s*\d+ por mês/);
+  assert.doesNotMatch(message, /Ana|Pizzaria Verde|99876-5432|ana@email\.com/);
+});
+
+test('mensagem do WhatsApp explica quando nenhum item foi selecionado', () => {
+  const segment = SEGMENTS.find((item) => item.id === 'cafeteria');
+  const answers = getAnswerMap(segment, {});
+  const result = calculateProject({ segment, answers, maintenanceSelected: false });
+  const message = buildWhatsAppMessage({ segment, answers, result });
+
+  assert.match(message, /Ainda estou definindo os recursos/);
+  assert.match(message, /Manutenção mensal: Não incluída/);
 });
 
 test('os valores da configuração conferem com as médias informadas', () => {

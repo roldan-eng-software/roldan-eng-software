@@ -110,49 +110,28 @@ export function validateWhatsApp(value) {
   return digits.length === 11 && /^\d{11}$/.test(digits);
 }
 
-export function buildEmailPayload({ segment, answers, result, customer }) {
-  const responseText = segment.questions
-    .map((question) => {
-      const answer = answers[question.id];
-      const label = answer === true ? 'Sim' : answer === false ? 'Não' : 'Não sei ainda';
-      return `${question.text}: ${label}`;
-    })
-    .join('; ');
-
-  const additionalItemsText = result.additionalItems.length
-    ? result.additionalItems.map((item) => `${item.name} (${formatCurrency(item.price)})`).join('; ')
-    : 'Nenhum';
-
+// Monta um resumo do projeto sem incluir dados pessoais na mensagem.
+export function buildWhatsAppMessage({ segment, answers, result }) {
+  const selectedItems = segment.questions
+    .filter((question) => answers[question.id] === true)
+    .map((question) => question.text);
+  const selectedItemsText = selectedItems.length
+    ? selectedItems.map((item) => `- ${item}`).join('\n')
+    : 'Ainda estou definindo os recursos.';
   const maintenanceText = result.totalMaintenance > 0
     ? `${formatCurrency(result.totalMaintenance)} por mês`
     : 'Não incluída';
 
-  return {
-    data: new Date().toLocaleDateString('pt-BR'),
-    segmento: segment.name,
-    respostas: responseText,
-    pacote_sugerido: result.suggestedPackage,
-    itens_adicionais: additionalItemsText,
-    total: formatCurrency(result.totalProject),
-    manutencao: maintenanceText,
-    nome: customer.name,
-    nome_negocio: customer.businessName,
-    whatsapp: customer.phone,
-    email: customer.email,
-    cidade: customer.city
-  };
-}
-
-export function getEmailJsConfig() {
-  if (typeof window === 'undefined') {
-    return { publicKey: '', serviceId: '', templateId: '' };
-  }
-
-  const winConfig = window.__EMAILJS_CONFIG__ || {};
-
-  return {
-    publicKey: winConfig.EMAILJS_PUBLIC_KEY || winConfig.publicKey || window.EMAILJS_PUBLIC_KEY || '',
-    serviceId: winConfig.EMAILJS_SERVICE_ID || winConfig.serviceId || window.EMAILJS_SERVICE_ID || '',
-    templateId: winConfig.EMAILJS_TEMPLATE_ID || winConfig.templateId || window.EMAILJS_TEMPLATE_ID || ''
-  };
+  return [
+    'Olá! Fiz a simulação de orçamento pelo site da Roldan Eng Software.',
+    '',
+    `Segmento: ${segment.name}`,
+    `Pacote sugerido: ${result.suggestedPackage}`,
+    'Itens desejados:',
+    selectedItemsText,
+    `Estimativa do projeto: ${formatCurrency(result.totalProject)}`,
+    `Manutenção mensal: ${maintenanceText}`,
+    '',
+    'Gostaria de conversar sobre esse projeto.'
+  ].join('\n');
 }

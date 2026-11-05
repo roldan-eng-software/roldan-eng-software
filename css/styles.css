@@ -2595,8 +2595,27 @@ button {
   font-size: 0.9rem;
 }
 
-.orcamento__form {
-  margin-top: 0.5rem;
+.orcamento__resumo-envio .orcamento__resumo-itens {
+  display: grid;
+  justify-content: stretch;
+  align-items: start;
+  gap: 0.45rem;
+}
+
+.orcamento__resumo-itens ul {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 1.25rem;
+  color: var(--cor-texto);
+}
+
+.orcamento__resumo-itens li {
+  line-height: 1.5;
+}
+
+.orcamento__contato-alternativo {
+  margin: 0;
+  text-align: center;
 }
 
 .campo--checkbox {

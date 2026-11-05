@@ -5,12 +5,9 @@ import {
   SEGMENTS
 } from './orcamento-config.js';
 import {
-  buildEmailPayload,
+  buildWhatsAppMessage,
   calculateProject,
-  formatCurrency,
-  getEmailJsConfig,
-  getSuggestedPackage,
-  validateWhatsApp
+  formatCurrency
 } from './orcamento-calculator.js';
 
 const app = document.querySelector('#orcamento-app');
@@ -22,12 +19,12 @@ const state = {
   segmentId: DEFAULT_SEGMENT_ID,
   answers: {},
   currentStep: 1,
-  maintenanceSelected: false,
-  formSubmitted: false,
-  lastSubmissionAt: 0
+  maintenanceSelected: false
 };
 
 const MAX_STEP = 4;
+const WHATSAPP_NUMBER = '5516981442301';
+const BUSINESS_EMAIL = 'roldan.eng.software@gmail.com';
 const segmentMap = new Map(SEGMENTS.map((segment) => [segment.id, segment]));
 
 function setSegment(segmentId) {
@@ -209,273 +206,68 @@ function renderResultStep() {
       <p class="orcamento__nota">Valor médio estimado. O orçamento final depende do escopo, do conteúdo e de uma conversa inicial.</p>
       <div class="orcamento__actions orcamento__actions--split">
         <button class="btn btn--secondary" type="button" data-action="previous-step">Voltar</button>
-        <button class="btn btn--primary" type="button" data-action="continue-to-form">Solicitar orçamento</button>
+        <button class="btn btn--primary" type="button" data-action="continue-to-contact">Solicitar orçamento</button>
       </div>
     </div>
   `;
 }
 
-function renderFormStep() {
+// Apresenta o resumo da simulação e os canais para solicitar atendimento.
+function renderContactStep() {
   const segment = getSegment();
   const result = calculateProject({ segment, answers: state.answers, maintenanceSelected: state.maintenanceSelected });
-  const totalProject = result.totalProject;
-  const totalMaintenance = result.totalMaintenance;
+  const message = buildWhatsAppMessage({ segment, answers: state.answers, result });
+  const selectedItems = segment.questions.filter((question) => state.answers[question.id] === true);
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  const emailUrl = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(`Orçamento para ${segment.name}`)}&amp;body=${encodeURIComponent(message)}`;
 
   return `
     <div class="orcamento__shell">
       <div class="orcamento__topo">
         <span class="badge badge--primary">${getStepLabel(4)}</span>
-        <h1>Solicite seu orçamento</h1>
-        <p>Preencha os dados abaixo e envie o resumo do projeto para o proprietário.</p>
+        <h1>Vamos conversar sobre seu projeto</h1>
+        <p>Confira o resumo e continue pelo canal que preferir. Você poderá revisar a mensagem antes de enviá-la.</p>
       </div>
       <div class="orcamento__progress" aria-label="Progresso do orçamento">
         <span style="width: ${getProgressWidth(4)}"></span>
       </div>
 
-      <form class="formulario orcamento__form" id="orcamento-form" novalidate>
-        <div class="campo">
-          <label for="orcamento-nome">Nome</label>
-          <input id="orcamento-nome" name="nome" type="text" required />
-          <span class="campo__erro" data-error-for="nome"></span>
+      <section class="orcamento__resumo-envio" aria-label="Resumo do orçamento">
+        <div>
+          <span>Segmento</span>
+          <strong>${segment.name}</strong>
         </div>
+        <div>
+          <span>Pacote</span>
+          <strong>${result.suggestedPackage}</strong>
+        </div>
+        <div class="orcamento__resumo-itens">
+          <span>Itens desejados</span>
+          ${selectedItems.length
+            ? `<ul>${selectedItems.map((question) => `<li>${question.text}</li>`).join('')}</ul>`
+            : '<strong>Ainda não definidos</strong>'}
+        </div>
+        <div>
+          <span>Estimativa do projeto</span>
+          <strong>${formatCurrency(result.totalProject)}</strong>
+        </div>
+        <div>
+          <span>Manutenção</span>
+          <strong>${result.totalMaintenance > 0 ? `${formatCurrency(result.totalMaintenance)} por mês` : 'Não incluída'}</strong>
+        </div>
+      </section>
 
-        <div class="campo">
-          <label for="orcamento-negocio">Nome do negócio</label>
-          <input id="orcamento-negocio" name="nomeNegocio" type="text" />
-        </div>
-
-        <div class="campo">
-          <label for="orcamento-whatsapp">WhatsApp</label>
-          <input id="orcamento-whatsapp" name="whatsapp" type="tel" placeholder="(16) 99876-5432" required />
-          <span class="campo__erro" data-error-for="whatsapp"></span>
-        </div>
-
-        <div class="campo">
-          <label for="orcamento-email">E-mail</label>
-          <input id="orcamento-email" name="email" type="email" placeholder="seu@email.com" />
-          <span class="campo__erro" data-error-for="email"></span>
-        </div>
-
-        <div class="campo">
-          <label for="orcamento-cidade">Cidade</label>
-          <input id="orcamento-cidade" name="cidade" type="text" />
-        </div>
-
-        <div class="campo campo--checkbox">
-          <label class="campo__checkbox">
-            <input id="orcamento-consentimento" type="checkbox" name="consentimento" required />
-            <span>Li e aceito a política de privacidade e autorizo o uso dos meus dados para atendimento deste orçamento.</span>
-          </label>
-          <a href="../politica-de-privacidade/" target="_blank" rel="noopener noreferrer">Ver política de privacidade</a>
-          <span class="campo__erro" data-error-for="consentimento"></span>
-        </div>
-
-        <div class="campo campo--captcha" aria-hidden="true">
-          <input type="text" name="website" tabindex="-1" autocomplete="off" />
-        </div>
-
-        <div class="orcamento__resumo-envio">
-          <div>
-            <span>Segmento</span>
-            <strong>${segment.name}</strong>
-          </div>
-          <div>
-            <span>Pacote</span>
-            <strong>${result.suggestedPackage}</strong>
-          </div>
-          <div>
-            <span>Total do projeto</span>
-            <strong>${formatCurrency(totalProject)}</strong>
-          </div>
-          <div>
-            <span>Manutenção</span>
-            <strong>${totalMaintenance > 0 ? formatCurrency(totalMaintenance) : 'Não incluída'}</strong>
-          </div>
-        </div>
-
-        <div class="formulario__erro" hidden>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="m9 9 6 6M15 9l-6 6"></path>
-          </svg>
-          <span id="orcamento-form-error">Preencha os campos obrigatórios corretamente.</span>
-        </div>
-
-        <div class="formulario__sucesso" hidden>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 6 9 17l-5-5"></path>
-          </svg>
-          <span>Orçamento enviado com sucesso. Em breve entraremos em contato.</span>
-        </div>
-
-        <div class="orcamento__actions orcamento__actions--split">
-          <button class="btn btn--secondary" type="button" data-action="previous-step">Voltar</button>
-          <button class="btn btn--primary" type="submit">Enviar orçamento</button>
-        </div>
-      </form>
+      <p class="orcamento__nota">A mensagem só será compartilhada quando você confirmar o envio no WhatsApp ou no seu aplicativo de e-mail.</p>
+      <div class="orcamento__actions orcamento__actions--split">
+        <button class="btn btn--secondary" type="button" data-action="previous-step">Voltar</button>
+        <a class="btn btn--primary" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Continuar pelo WhatsApp</a>
+      </div>
+      <p class="orcamento__contato-alternativo">Prefere outro canal? <a href="${emailUrl}">Enviar por e-mail</a></p>
     </div>
   `;
 }
 
-function applyError(input, message) {
-  const wrapper = input.closest('.campo');
-  const errorNode = document.querySelector(`[data-error-for="${input.name}"]`);
-
-  if (wrapper) {
-    wrapper.classList.add('is-invalido');
-  }
-
-  if (errorNode) {
-    errorNode.textContent = message;
-  }
-}
-
-function clearError(input) {
-  const wrapper = input.closest('.campo');
-  const errorNode = document.querySelector(`[data-error-for="${input.name}"]`);
-
-  if (wrapper) {
-    wrapper.classList.remove('is-invalido');
-  }
-
-  if (errorNode) {
-    errorNode.textContent = '';
-  }
-}
-
-function validateForm(form) {
-  let valid = true;
-  const name = form.querySelector('#orcamento-nome');
-  const phone = form.querySelector('#orcamento-whatsapp');
-  const email = form.querySelector('#orcamento-email');
-  const consent = form.querySelector('#orcamento-consentimento');
-  const honeypot = form.querySelector('input[name="website"]');
-  const errorBox = form.querySelector('.formulario__erro');
-
-  if (honeypot && honeypot.value.trim() !== '') {
-    valid = false;
-    if (errorBox) {
-      errorBox.hidden = false;
-      errorBox.querySelector('span').textContent = 'Solicitação rejeitada.';
-    }
-    return false;
-  }
-
-  if (!name.value.trim()) {
-    valid = false;
-    applyError(name, 'Informe seu nome.');
-  } else {
-    clearError(name);
-  }
-
-  if (!phone.value.trim() || !validateWhatsApp(phone.value)) {
-    valid = false;
-    applyError(phone, 'Informe um WhatsApp válido com DDD e 9 dígitos.');
-  } else {
-    clearError(phone);
-  }
-
-  if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-    valid = false;
-    applyError(email, 'Informe um e-mail válido.');
-  } else {
-    clearError(email);
-  }
-
-  if (!consent.checked) {
-    valid = false;
-    applyError(consent, 'Você precisa aceitar a política de privacidade.');
-  } else {
-    clearError(consent);
-  }
-
-  if (errorBox && valid) {
-    errorBox.hidden = true;
-  }
-
-  return valid;
-}
-
-async function handleSubmit(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const honeypot = form.querySelector('input[name="website"]');
-
-  if (honeypot && honeypot.value.trim() !== '') {
-    const successBox = form.querySelector('.formulario__sucesso');
-    const errorBox = form.querySelector('.formulario__erro');
-    if (successBox) {
-      successBox.hidden = false;
-    }
-    if (errorBox) {
-      errorBox.hidden = true;
-    }
-    form.reset();
-    return;
-  }
-
-  if (!validateForm(form)) {
-    return;
-  }
-
-  const now = Date.now();
-  const cooldownMs = 60 * 1000;
-  if (now - state.lastSubmissionAt < cooldownMs) {
-    const errorBox = form.querySelector('.formulario__erro');
-    errorBox.hidden = false;
-    errorBox.querySelector('span').textContent = 'Aguarde 60 segundos antes de enviar um novo orçamento.';
-    return;
-  }
-
-  const segment = getSegment();
-  const result = calculateProject({ segment, answers: state.answers, maintenanceSelected: state.maintenanceSelected });
-  const data = {
-    name: form.querySelector('#orcamento-nome').value.trim(),
-    businessName: form.querySelector('#orcamento-negocio').value.trim(),
-    phone: form.querySelector('#orcamento-whatsapp').value.trim(),
-    email: form.querySelector('#orcamento-email').value.trim(),
-    city: form.querySelector('#orcamento-cidade').value.trim(),
-    consent: form.querySelector('#orcamento-consentimento').checked
-  };
-
-  const config = getEmailJsConfig();
-  const hasEmailConfig = Boolean(config.publicKey && config.serviceId && config.templateId);
-
-  if (!hasEmailConfig) {
-    const errorBox = form.querySelector('.formulario__erro');
-    errorBox.hidden = false;
-    errorBox.querySelector('span').textContent = 'As variáveis do EmailJS não foram configuradas. Ajuste o arquivo .env.example e recarregue a página.';
-    return;
-  }
-
-  const payload = buildEmailPayload({
-    segment,
-    answers: state.answers,
-    result,
-    customer: data
-  });
-
-  const successBox = form.querySelector('.formulario__sucesso');
-  const errorBox = form.querySelector('.formulario__erro');
-
-  try {
-    if (typeof window.emailjs?.init === 'function') {
-      window.emailjs.init({ publicKey: config.publicKey });
-    }
-
-    await window.emailjs.send(config.serviceId, config.templateId, payload);
-    state.lastSubmissionAt = now;
-    state.formSubmitted = true;
-    form.reset();
-    successBox.hidden = false;
-    errorBox.hidden = true;
-  } catch (error) {
-    errorBox.hidden = false;
-    errorBox.querySelector('span').textContent = 'Não foi possível enviar o orçamento agora. Verifique sua conexão e tente novamente.';
-    console.error('Erro ao enviar orçamento via EmailJS', error);
-  }
-}
-
+// Renderiza a etapa ativa do assistente e conecta as interações disponíveis.
 function render() {
   if (state.currentStep === 1) {
     app.innerHTML = renderSegmentSelection();
@@ -484,11 +276,7 @@ function render() {
   } else if (state.currentStep === 3) {
     app.innerHTML = renderResultStep();
   } else {
-    app.innerHTML = renderFormStep();
-    const form = app.querySelector('#orcamento-form');
-    if (form) {
-      form.addEventListener('submit', handleSubmit);
-    }
+    app.innerHTML = renderContactStep();
   }
 
   const segmentButtons = app.querySelectorAll('[data-segment-id]');
@@ -520,7 +308,7 @@ function render() {
         nextStep();
       }
 
-      if (action === 'continue-to-form') {
+      if (action === 'continue-to-contact') {
         nextStep();
       }
 
@@ -553,19 +341,6 @@ function render() {
     });
   }
 
-  const form = app.querySelector('#orcamento-form');
-  if (form) {
-    form.querySelectorAll('input').forEach((input) => {
-      input.addEventListener('input', () => clearError(input));
-      input.addEventListener('blur', () => {
-        if (input.name === 'whatsapp' && input.value.trim()) {
-          if (!validateWhatsApp(input.value)) {
-            applyError(input, 'Informe um WhatsApp válido com DDD e 9 dígitos.');
-          }
-        }
-      });
-    });
-  }
 }
 
 render();
